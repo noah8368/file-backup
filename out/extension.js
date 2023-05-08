@@ -15,8 +15,9 @@ function backup() {
     const workspace_path = vscode.workspace.workspaceFolders[0].uri.path;
     // Execute a python script that copies files over to the remote host.
     const { exec } = require('child_process');
-    vscode.window.showInformationMessage('Attempting file transfer with rysnc');
-    exec(`rsync -a ${workspace_path}/ ~/test_file_backup`, (error, stdout, stderr) => {
+    vscode.window.showInformationMessage('Initiating file transfer');
+    const backup_destination = vscode.workspace.getConfiguration('file-backup');
+    exec(`rsync -av ${workspace_path} ${backup_destination}`, (error, stdout, stderr) => {
         if (error) {
             console.log(`error: ${error.message}`);
         }

@@ -21,14 +21,10 @@
     "configuration": {
       "title": "file-backup",
       "properties": {
-        "file-backup.remote-host-ip": {
+        "file-backup.destination": {
           "type": "string",
-          "default": "localhost",
-          "description": "IP of remote backup host."
-        },
-        "file-backup.remote-host-save-dir": {
-          "type": "string",
-          "description": "File path on remote host to save files to."
+          "default": "root@localhost:~",
+          "description": "username@remote_host:destination_directory"
         }
       }
     }
