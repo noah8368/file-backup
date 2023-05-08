@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "file-backup.helloWorld",
-        "title": "Hello World"
+        "command": "file-backup.backup",
+        "title": "Backup files"
       }
     ]
   },
