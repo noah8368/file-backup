@@ -1,17 +1,20 @@
 import * as vscode from 'vscode';
 
-function backup(root_dir: string) {
-	const { exec } = require('child_process')
-
-	const workspace_folders = vscode.workspace.workspaceFolders;
-
-	if (workspace_folders == undefined) {
-		console.log("ERROR: workspace folder undefined")
-	} else {
-		console.log(workspace_folders.length);
+function backup() {
+	// Load the workspace file path.
+	if (vscode.workspace.workspaceFolders == undefined) {
+		console.log("ERROR: Workspace undefined.");
+		return;
+	} else if (vscode.workspace.workspaceFolders.length != 1) {
+		console.log("ERROR: This extension requies ONE defined workspace.");
+		return;
 	}
+	const workspace_path = vscode.workspace.workspaceFolders[0].uri.path;
 
-	exec('python3 src/backup.py ' + "TEST",
+	// Execute a python script that copies files over to the remote host.
+	const { exec } = require('child_process')
+	vscode.window.showInformationMessage('Attempting file transfer with rysnc');
+	exec(`rsync -a ${workspace_path}/ ~/test_file_backup`,
 		(error: any, stdout: any, stderr: any) => {
 			if (error) {
 				console.log(`error: ${error.message}`);
@@ -20,11 +23,9 @@ function backup(root_dir: string) {
 				console.log(`stderr: ${stderr}`);
 			}
 			else {
-				console.log(stdout);
+				console.log(stdout)
 			}
 		})
-
-	vscode.window.showInformationMessage('File transfer successful');
 }
 
 export function activate(context: vscode.ExtensionContext) {
